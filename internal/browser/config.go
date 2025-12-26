@@ -170,6 +170,79 @@ func DefaultConfig() Config {
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/p/pcre3/libpcre3_2%3a8.39-13ubuntu0.22.04.1_amd64.deb",
 				LibraryName: "libpcre.so",
 			},
+			// Additional system libraries
+			{
+				Name:        "libffi7",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libf/libffi/libffi7_3.3-6_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libf/libffi/libffi8_3.4.2-4_amd64.deb",
+				LibraryName: "libffi.so",
+			},
+			{
+				Name:        "libdbus-1-3",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/d/dbus/libdbus-1-3_1.12.28-0+deb11u1_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/d/dbus/libdbus-1-3_1.12.20-2ubuntu4_amd64.deb",
+				LibraryName: "libdbus-1.so",
+			},
+			{
+				Name:        "libexpat1",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/e/expat/libexpat1_2.2.10-2+deb11u5_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/e/expat/libexpat1_2.4.7-1ubuntu0.2_amd64.deb",
+				LibraryName: "libexpat.so",
+			},
+			{
+				Name:        "libx11-6",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libx11/libx11-6_1.7.2-1+deb11u2_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libx11/libx11-6_1.7.5-1_amd64.deb",
+				LibraryName: "libX11.so",
+			},
+			{
+				Name:        "libxcb1",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxcb/libxcb1_1.14-3_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxcb/libxcb1_1.14-3ubuntu3_amd64.deb",
+				LibraryName: "libxcb.so",
+			},
+			{
+				Name:        "libxau6",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxau/libxau6_1.0.9-1_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxau/libxau6_1.0.9-1build5_amd64.deb",
+				LibraryName: "libXau.so",
+			},
+			{
+				Name:        "libxdmcp6",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxdmcp/libxdmcp6_1.1.2-3_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxdmcp/libxdmcp6_1.1.3-0ubuntu5_amd64.deb",
+				LibraryName: "libXdmcp.so",
+			},
+			{
+				Name:        "libgdk-pixbuf2.0-0",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/g/gdk-pixbuf/libgdk-pixbuf2.0-0_2.42.2+dfsg-1+deb11u1_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/g/gdk-pixbuf/libgdk-pixbuf-2.0-0_2.42.8+dfsg-1ubuntu0.2_amd64.deb",
+				LibraryName: "libgdk_pixbuf-2.0.so",
+			},
+			{
+				Name:        "libpangocairo-1.0-0",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/p/pango1.0/libpangocairo-1.0-0_1.46.2-3_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/p/pango1.0/libpangocairo-1.0-0_1.50.6+ds-2_amd64.deb",
+				LibraryName: "libpangocairo-1.0.so",
+			},
+			{
+				Name:        "libgtk-3-0",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/g/gtk+3.0/libgtk-3-0_3.24.24-4+deb11u3_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/g/gtk+3.0/libgtk-3-0_3.24.33-1ubuntu2_amd64.deb",
+				LibraryName: "libgtk-3.so",
+			},
+			{
+				Name:        "libxrender1",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxrender/libxrender1_0.9.10-1_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxrender/libxrender1_0.9.10-1build4_amd64.deb",
+				LibraryName: "libXrender.so",
+			},
+			{
+				Name:        "libxkbcommon0",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxkbcommon/libxkbcommon0_1.0.3-2_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxkbcommon/libxkbcommon0_1.4.0-1_amd64.deb",
+				LibraryName: "libxkbcommon.so",
+			},
 		},
 	}
 }
