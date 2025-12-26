@@ -148,7 +148,7 @@ func DefaultConfig() Config {
 			},
 			{
 				Name:        "libglib2.0-0",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/g/glib2.0/libglib2.0-0_2.66.8-1_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/g/glib2.0/libglib2.0-0_2.66.8-1+deb11u4_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/g/glib2.0/libglib2.0-0_2.72.1-1_amd64.deb",
 				LibraryName: "libglib-2.0.so",
 			},
