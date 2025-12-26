@@ -39,13 +39,13 @@ func DefaultConfig() Config {
 			// Dependencies umum yang dibutuhkan Chrome (Debian 11 Bullseye versions)
 			{
 				Name:        "libnss3",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/n/nss/libnss3_2%3a3.61-1%2bdeb11u3_amd64.deb",
+				DebianURL:   "https://ftp.debian.org/debian/pool/main/n/nss/libnss3_3.110-1_amd64.deb",
 				UbuntuURL:   "http://security.ubuntu.com/ubuntu/pool/main/n/nss/libnss3_3.98-0ubuntu0.22.04.2_amd64.deb",
 				LibraryName: "libnss3.so",
 			},
 			{
 				Name:        "libnspr4",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/n/nspr/libnspr4_2%3a4.29-1_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/n/nspr/libnspr4_4.35-1_amd64.deb",
 				UbuntuURL:   "http://security.ubuntu.com/ubuntu/pool/main/n/nspr/libnspr4_4.32-3ubuntu0.22.04.1_amd64.deb",
 				LibraryName: "libnspr4.so",
 			},
@@ -63,13 +63,13 @@ func DefaultConfig() Config {
 			},
 			{
 				Name:        "libatspi2.0-0",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/a/at-spi2-core/libatspi2.0-0_2.38.0-4%2bdeb11u1_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/a/at-spi2-core/libatspi2.0-0_2.38.0-4+deb11u1_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/a/at-spi2-core/libatspi2.0-0_2.38.0-3_amd64.deb",
 				LibraryName: "libatspi.so",
 			},
 			{
 				Name:        "libcups2",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/c/cups/libcups2_2.3.3op2-3%2bdeb11u6_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/c/cups/libcups2_2.3.3op2-3+deb11u8_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/c/cups/libcups2_2.4.1-1ubuntu4.4_amd64.deb",
 				LibraryName: "libcups.so",
 			},
