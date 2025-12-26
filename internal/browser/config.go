@@ -106,19 +106,19 @@ func DefaultConfig() Config {
 			},
 			{
 				Name:        "libxext6",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxext/libxext6_1.3.4-1+deb11u1_amd64.deb",
+				DebianURL:   "https://ftp.debian.org/debian/pool/main/libx/libxext/libxext6_1.3.3-1.1_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxext/libxext6_1.3.4-1build1_amd64.deb",
 				LibraryName: "libXext.so",
 			},
 			{
 				Name:        "libxfixes3",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxfixes/libxfixes3_6.0.0-1_amd64.deb",
+				DebianURL:   "https://ftp.debian.org/debian/pool/main/libx/libxfixes/libxfixes3_6.0.0-2_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxfixes/libxfixes3_6.0.0-1_amd64.deb",
 				LibraryName: "libXfixes.so",
 			},
 			{
 				Name:        "libxrandr2",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxrandr/libxrandr2_1.5.2-1+deb11u1_amd64.deb",
+				DebianURL:   "https://ftp.debian.org/debian/pool/main/libx/libxrandr/libxrandr2_1.5.1-1_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxrandr/libxrandr2_1.5.2-2build1_amd64.deb",
 				LibraryName: "libXrandr.so",
 			},
@@ -148,9 +148,15 @@ func DefaultConfig() Config {
 			},
 			{
 				Name:        "libglib2.0-0",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/g/glib2.0/libglib2.0-0_2.66.8-1+deb11u1_amd64.deb",
+				DebianURL:   "https://ftp.debian.org/debian/pool/main/g/glib2.0/libglib2.0-0_2.78.4-6_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/g/glib2.0/libglib2.0-0_2.72.1-1_amd64.deb",
 				LibraryName: "libglib-2.0.so",
+			},
+			{
+				Name:        "libavahi-common3",
+				DebianURL:   "https://ftp.debian.org/debian/pool/main/a/avahi/libavahi-common3_0.8-17_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/a/avahi/libavahi-common3_0.8-5ubuntu5_amd64.deb",
+				LibraryName: "libavahi-common.so",
 			},
 		},
 	}
