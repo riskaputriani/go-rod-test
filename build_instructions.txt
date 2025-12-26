@@ -1,12 +1,65 @@
+# Build Instructions
+
+## Struktur Proyek (Modular)
+
+Proyek ini telah direfactor menjadi struktur modular:
+- `internal/browser`: Manajemen browser (Ungoogled Chromium auto-download)
+- `internal/logger`: Sistem logging
+- `internal/runtime`: Runtime information logging
+
+## Prerequisites
+
+1. Go 1.25.4 atau lebih baru
+2. Linux OS (untuk Ungoogled Chromium)
+3. tar command tersedia di sistem
+
+## Build Steps
+
 To build the binary for linux, first you need to manually initialize the go module and download the dependencies. Run the following commands in your terminal:
-```
+
+```bash
 go mod init go-rod-testing-browser-restrict
 go mod tidy
 ```
 
 Then, to build the binary, run the following command:
-```
+
+```bash
 make build
 ```
 
 This will create a binary named `go-rod-testing-browser-restrict` in the current directory.
+
+## Menjalankan
+
+```bash
+./go-rod-testing-browser-restrict
+```
+
+## Fitur Otomatis
+
+Saat aplikasi dijalankan, akan secara otomatis:
+
+### 1. Setup Ungoogled Chromium Portable
+   - Cek apakah sudah terinstall di `~/.local/share/ungoogled-chromium`
+   - Jika belum, download dari GitHub releases
+   - Ekstrak otomatis menggunakan tar command
+   - Gunakan binary tersebut untuk browser automation
+
+### 2. Logging Lengkap
+   - Log ke file `runtime-info.log` dan stdout
+   - Informasi Go runtime, memory, build info
+   - System info (hostname, user, environment)
+   - Linux-specific info (kernel, cgroup, os-release)
+
+## Troubleshooting
+
+Jika download otomatis gagal, download manual:
+
+```bash
+wget https://github.com/macchrome/linchrome/releases/download/v142.0.7444.229-M142.0.7444.229-r1522585-portable-ungoogled-Lin64/ungoogled-chromium_142.0.7444.229_1.vaapi_linux.tar.xz
+mkdir -p ~/.local/share/ungoogled-chromium
+tar -xf ungoogled-chromium_*.tar.xz -C ~/.local/share/ungoogled-chromium
+```
+
+Setelah itu jalankan aplikasi lagi.
