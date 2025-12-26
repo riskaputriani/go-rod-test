@@ -115,18 +115,17 @@ func (cm *ChromiumManager) downloadAndExtract() error {
 
 // extractTarXz mengekstrak file tar.xz
 func (cm *ChromiumManager) extractTarXz(r io.Reader) error {
-	// Karena Go tidak memiliki dukungan bawaan untuk XZ,
-	// kita akan menggunakan command eksternal jika tersedia
-	// Atau kita bisa save file dulu lalu ekstrak
+	// Gunakan direktori instalasi untuk temp file (bukan /tmp yang kecil)
+	// /tmp sering dimount sebagai tmpfs dengan size terbatas
+	tmpFile := filepath.Join(cm.installDir, ".chromium-download.tar.xz")
 
-	// Simpan file sementara
-	tmpFile := filepath.Join(os.TempDir(), "chromium.tar.xz")
 	f, err := os.Create(tmpFile)
 	if err != nil {
 		return err
 	}
 
 	cm.logger("chromium_temp_file", tmpFile)
+	cm.logger("chromium_download_progress", "saving")
 
 	// Copy data ke file
 	if _, err := io.Copy(f, r); err != nil {
@@ -135,6 +134,8 @@ func (cm *ChromiumManager) extractTarXz(r io.Reader) error {
 		return err
 	}
 	f.Close()
+
+	cm.logger("chromium_download_progress", "saved")
 
 	// Ekstrak menggunakan command line
 	// Untuk Linux, gunakan tar command

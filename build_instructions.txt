@@ -59,6 +59,8 @@ Saat aplikasi dijalankan, akan secara otomatis:
 
 ## Troubleshooting
 
+### Download otomatis gagal
+
 Jika download otomatis gagal, download manual:
 
 ```bash
@@ -68,3 +70,11 @@ tar -xf ungoogled-chromium_*.tar.xz -C ~/.local/share/ungoogled-chromium
 ```
 
 Setelah itu jalankan aplikasi lagi.
+
+### Error: "no space left on device"
+
+Jika mendapat error ini padahal disk space masih banyak:
+- Ini terjadi karena `/tmp` sering dimount sebagai tmpfs (RAM) dengan size terbatas
+- Solusi: Aplikasi sudah diupdate untuk menyimpan file temporary di `~/.local/share/ungoogled-chromium` 
+  bukan di `/tmp`
+- Pastikan home directory (~) punya minimal 200MB free space untuk download dan ekstraksi

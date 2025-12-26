@@ -110,9 +110,21 @@ tar -xf ungoogled-chromium_*.tar.xz -C ~/.local/share/ungoogled-chromium
 
 ## Catatan
 
-- Aplikasi akan fallback ke browser default jika Ungoogled Chromium gagal disetup
+- Aplikasi **TIDAK** akan fallback ke browser default jika Ungoogled Chromium gagal disetup
 - Ekstraksi memerlukan command `tar` yang sudah terinstall
 - Browser dijalankan dalam mode `--headless` dan `--no-sandbox`
+- Download file (~100MB) disimpan di direktori instalasi, bukan `/tmp` (untuk menghindari "no space" error di tmpfs)
+- Pastikan ada minimal 200MB free space di `~/.local/share` untuk instalasi
+
+## Troubleshooting
+
+### Error: "no space left on device"
+
+Jika mendapat error ini padahal disk masih banyak space:
+
+- `/tmp` kemungkinan mounted sebagai tmpfs (RAM) dengan size terbatas
+- Solusi sudah diterapkan: file didownload ke `~/.local/share/ungoogled-chromium` bukan `/tmp`
+- Pastikan home directory (`~`) punya minimal 200MB free space
 
 ## License
 
