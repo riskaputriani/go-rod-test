@@ -32,9 +32,11 @@ Aplikasi Go untuk testing browser automation menggunakan Rod dengan dukungan Ung
 Aplikasi akan otomatis:
 
 - Mengecek apakah Ungoogled Chromium sudah terinstall
-- Download versi portable jika belum ada
+- Download versi portable jika belum ada (~100MB, satu kali saja)
 - Ekstrak ke direktori `~/.local/share/ungoogled-chromium`
 - Menggunakan binary tersebut untuk menjalankan browser
+
+**Penting**: Aplikasi ini **TIDAK** menggunakan Chrome default atau auto-download dari Rod. Hanya menggunakan Ungoogled Chromium yang dikelola oleh aplikasi sendiri. Jika Chromium gagal disetup, aplikasi akan error (tidak ada fallback ke browser lain).
 
 ### 3. Comprehensive Runtime Logging
 
@@ -88,7 +90,7 @@ Jika download otomatis gagal, Anda bisa download manual:
 
 ```bash
 # Download
-wget https://github.com/macchrome/linchrome/releases/download/v142.0.7444.229-M142.0.7444.229-r1522585-portable-ungoogled-Lin64/ungoogled-chromium_142.0.7444.229_1.vaapi_linux.tar.xz
+wget https://github.com/macchrome/linchrome/releases/download/v142.7444.229-M142.0.7444.229-r1522585-portable-ungoogled-Lin64/ungoogled-chromium_142.0.7444.229_1.vaapi_linux.tar.xz
 
 # Ekstrak ke direktori yang benar
 mkdir -p ~/.local/share/ungoogled-chromium

@@ -22,18 +22,16 @@ func main() {
 	runtimeInfo.LogAll()
 
 	// Setup dan jalankan browser dengan Ungoogled Chromium
+	// TIDAK akan menggunakan chrome default atau auto-download dari rod
+	// Hanya menggunakan Ungoogled Chromium yang didownload oleh aplikasi ini
 	chromiumMgr := browser.NewChromiumManager(log.LogKV)
 
-	// Setup akan otomatis download jika belum ada
-	if err := chromiumMgr.Setup(); err != nil {
-		log.LogKV("chromium_setup_error", err.Error())
-		// Lanjutkan dengan browser default jika gagal
-	}
-
-	// Dapatkan browser instance
+	// Dapatkan browser instance (akan otomatis download Chromium jika belum ada)
 	browserInstance, err := chromiumMgr.GetBrowser()
 	if err != nil {
 		log.LogKV("browser_error", err.Error())
+		fmt.Printf("\nError: %s\n", err.Error())
+		fmt.Println("Chromium gagal disetup. Pastikan koneksi internet aktif.")
 		panic(err)
 	}
 	defer browserInstance.MustClose()

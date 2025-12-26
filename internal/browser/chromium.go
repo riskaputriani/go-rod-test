@@ -168,32 +168,25 @@ func (cm *ChromiumManager) extractUsingTarCommand(tarFile string) error {
 
 // GetBrowser membuat dan mengembalikan instance browser Rod
 func (cm *ChromiumManager) GetBrowser() (*rod.Browser, error) {
-	// Setup Chromium jika belum
+	// Setup Chromium jika belum (akan download jika perlu)
 	if err := cm.Setup(); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to setup chromium: %w", err)
 	}
 
-	// Jika execPath tidak ditemukan, gunakan launcher default
-	var u string
-
-	if cm.execPath != "" {
-		// Gunakan Ungoogled Chromium
-		cm.logger("browser_using", "ungoogled_chromium")
-		u = launcher.New().
-			Bin(cm.execPath).
-			Headless(true).
-			NoSandbox(true).
-			MustLaunch()
-	} else {
-		// Fallback ke browser default
-		cm.logger("browser_using", "default")
-		path, _ := launcher.LookPath()
-		u = launcher.New().
-			Bin(path).
-			Headless(true).
-			NoSandbox(true).
-			MustLaunch()
+	// Pastikan execPath sudah ditemukan
+	if cm.execPath == "" {
+		return nil, fmt.Errorf("chromium executable not found after setup")
 	}
+
+	// Gunakan Ungoogled Chromium yang sudah didownload
+	cm.logger("browser_using", "ungoogled_chromium")
+	cm.logger("browser_executable", cm.execPath)
+
+	u := launcher.New().
+		Bin(cm.execPath).
+		Headless(true).
+		NoSandbox(true).
+		MustLaunch()
 
 	// Buat browser
 	browser := rod.New().ControlURL(u).MustConnect()

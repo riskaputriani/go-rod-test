@@ -42,9 +42,14 @@ Saat aplikasi dijalankan, akan secara otomatis:
 
 ### 1. Setup Ungoogled Chromium Portable
    - Cek apakah sudah terinstall di `~/.local/share/ungoogled-chromium`
-   - Jika belum, download dari GitHub releases
+   - Jika belum, download dari GitHub releases (~100MB)
    - Ekstrak otomatis menggunakan tar command
    - Gunakan binary tersebut untuk browser automation
+   
+   **Catatan Penting**: 
+   - Aplikasi HANYA menggunakan Ungoogled Chromium yang didownload sendiri
+   - TIDAK menggunakan Chrome default atau auto-download dari go-rod
+   - Jika setup gagal, aplikasi akan error (tidak ada fallback)
 
 ### 2. Logging Lengkap
    - Log ke file `runtime-info.log` dan stdout
@@ -57,7 +62,7 @@ Saat aplikasi dijalankan, akan secara otomatis:
 Jika download otomatis gagal, download manual:
 
 ```bash
-wget https://github.com/macchrome/linchrome/releases/download/v142.0.7444.229-M142.0.7444.229-r1522585-portable-ungoogled-Lin64/ungoogled-chromium_142.0.7444.229_1.vaapi_linux.tar.xz
+wget https://github.com/macchrome/linchrome/releases/download/v142.7444.229-M142.0.7444.229-r1522585-portable-ungoogled-Lin64/ungoogled-chromium_142.0.7444.229_1.vaapi_linux.tar.xz
 mkdir -p ~/.local/share/ungoogled-chromium
 tar -xf ungoogled-chromium_*.tar.xz -C ~/.local/share/ungoogled-chromium
 ```
