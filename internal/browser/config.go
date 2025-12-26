@@ -148,19 +148,19 @@ func DefaultConfig() Config {
 			},
 			{
 				Name:        "libglib2.0-0",
-				DebianURL:   "https://ftp.debian.org/debian/pool/main/g/glib2.0/libglib2.0-0_2.78.4-6_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/g/glib2.0/libglib2.0-0_2.66.8-1_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/g/glib2.0/libglib2.0-0_2.72.1-1_amd64.deb",
 				LibraryName: "libglib-2.0.so",
 			},
 			{
 				Name:        "libavahi-common3",
-				DebianURL:   "https://ftp.debian.org/debian/pool/main/a/avahi/libavahi-common3_0.8-17_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/a/avahi/libavahi-common3_0.8-5+deb11u2_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/a/avahi/libavahi-common3_0.8-5ubuntu5_amd64.deb",
 				LibraryName: "libavahi-common.so",
 			},
 			{
 				Name:        "libavahi-client3",
-				DebianURL:   "https://ftp.debian.org/debian/pool/main/a/avahi/libavahi-client3_0.8-16_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/a/avahi/libavahi-client3_0.8-5+deb11u2_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/a/avahi/libavahi-client3_0.8-5ubuntu5_amd64.deb",
 				LibraryName: "libavahi-client.so",
 			},
