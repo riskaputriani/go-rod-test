@@ -91,6 +91,67 @@ func DefaultConfig() Config {
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/a/alsa-lib/libasound2_1.2.6.1-1ubuntu1.1_amd64.deb",
 				LibraryName: "libasound.so",
 			},
+			// X11 Libraries yang dibutuhkan Chrome
+			{
+				Name:        "libxcomposite1",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxcomposite/libxcomposite1_0.4.5-1_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxcomposite/libxcomposite1_0.4.5-1_amd64.deb",
+				LibraryName: "libXcomposite.so",
+			},
+			{
+				Name:        "libxdamage1",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxdamage/libxdamage1_1.1.5-2_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxdamage/libxdamage1_1.1.5-2_amd64.deb",
+				LibraryName: "libXdamage.so",
+			},
+			{
+				Name:        "libxext6",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxext/libxext6_1.3.4-1+deb11u1_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxext/libxext6_1.3.4-1build1_amd64.deb",
+				LibraryName: "libXext.so",
+			},
+			{
+				Name:        "libxfixes3",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxfixes/libxfixes3_6.0.0-1_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxfixes/libxfixes3_6.0.0-1_amd64.deb",
+				LibraryName: "libXfixes.so",
+			},
+			{
+				Name:        "libxrandr2",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxrandr/libxrandr2_1.5.2-1+deb11u1_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxrandr/libxrandr2_1.5.2-2build1_amd64.deb",
+				LibraryName: "libXrandr.so",
+			},
+			{
+				Name:        "libxtst6",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxtst/libxtst6_1.2.3-1_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxtst/libxtst6_1.2.3-1build4_amd64.deb",
+				LibraryName: "libXtst.so",
+			},
+			{
+				Name:        "libxss1",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libx/libxss/libxss1_1.2.3-1_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libx/libxss/libxss1_1.2.3-1build2_amd64.deb",
+				LibraryName: "libXss.so",
+			},
+			{
+				Name:        "libcairo2",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/c/cairo/libcairo2_1.16.0-5_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/c/cairo/libcairo2_1.16.0-5ubuntu2_amd64.deb",
+				LibraryName: "libcairo.so",
+			},
+			{
+				Name:        "libpango-1.0-0",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/p/pango1.0/libpango-1.0-0_1.46.2-3_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/p/pango1.0/libpango-1.0-0_1.50.6+ds-2_amd64.deb",
+				LibraryName: "libpango-1.0.so",
+			},
+			{
+				Name:        "libglib2.0-0",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/g/glib2.0/libglib2.0-0_2.66.8-1+deb11u1_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/g/glib2.0/libglib2.0-0_2.72.1-1_amd64.deb",
+				LibraryName: "libglib-2.0.so",
+			},
 		},
 	}
 }
