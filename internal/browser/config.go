@@ -36,58 +36,58 @@ func DefaultConfig() Config {
 		InstallDirName: "chrome-for-testing",
 		Version:        "131.0.6778.204",
 		Dependencies: []Dependency{
-			// Dependencies umum yang dibutuhkan Chrome
+			// Dependencies umum yang dibutuhkan Chrome (Debian 11 Bullseye versions)
 			{
 				Name:        "libnss3",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/n/nss/libnss3_3.87-1_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/n/nss/libnss3_2%3a3.61-1%2bdeb11u3_amd64.deb",
 				UbuntuURL:   "http://security.ubuntu.com/ubuntu/pool/main/n/nss/libnss3_3.98-0ubuntu0.22.04.2_amd64.deb",
 				LibraryName: "libnss3.so",
 			},
 			{
 				Name:        "libnspr4",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/n/nspr/libnspr4_4.35-1_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/n/nspr/libnspr4_2%3a4.29-1_amd64.deb",
 				UbuntuURL:   "http://security.ubuntu.com/ubuntu/pool/main/n/nspr/libnspr4_4.32-3ubuntu0.22.04.1_amd64.deb",
 				LibraryName: "libnspr4.so",
 			},
 			{
 				Name:        "libatk-bridge2.0-0",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/a/at-spi2-core/libatk-bridge2.0-0_2.46.0-5_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/a/at-spi2-atk/libatk-bridge2.0-0_2.38.0-1_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/a/at-spi2-core/libatk-bridge2.0-0_2.38.0-3_amd64.deb",
 				LibraryName: "libatk-bridge-2.0.so",
 			},
 			{
 				Name:        "libatk1.0-0",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/a/atk1.0/libatk1.0-0_2.46.0-5_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/a/atk1.0/libatk1.0-0_2.36.0-2_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/a/atk1.0/libatk1.0-0_2.36.0-3build1_amd64.deb",
 				LibraryName: "libatk-1.0.so",
 			},
 			{
 				Name:        "libatspi2.0-0",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/a/at-spi2-core/libatspi2.0-0_2.46.0-5_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/a/at-spi2-core/libatspi2.0-0_2.38.0-4%2bdeb11u1_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/a/at-spi2-core/libatspi2.0-0_2.38.0-3_amd64.deb",
 				LibraryName: "libatspi.so",
 			},
 			{
 				Name:        "libcups2",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/c/cups/libcups2_2.4.2-3_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/c/cups/libcups2_2.3.3op2-3%2bdeb11u6_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/c/cups/libcups2_2.4.1-1ubuntu4.4_amd64.deb",
 				LibraryName: "libcups.so",
 			},
 			{
 				Name:        "libdrm2",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/libd/libdrm/libdrm2_2.4.114-1_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/libd/libdrm/libdrm2_2.4.104-1_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/libd/libdrm/libdrm2_2.4.113-2~ubuntu0.22.04.1_amd64.deb",
 				LibraryName: "libdrm.so",
 			},
 			{
 				Name:        "libgbm1",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/m/mesa/libgbm1_22.3.6-1_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/m/mesa/libgbm1_20.3.5-1_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/m/mesa/libgbm1_23.2.1-1ubuntu3.1~22.04.2_amd64.deb",
 				LibraryName: "libgbm.so",
 			},
 			{
 				Name:        "libasound2",
-				DebianURL:   "http://ftp.debian.org/debian/pool/main/a/alsa-lib/libasound2_1.2.8-1_amd64.deb",
+				DebianURL:   "http://ftp.debian.org/debian/pool/main/a/alsa-lib/libasound2_1.2.4-1.1_amd64.deb",
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/a/alsa-lib/libasound2_1.2.6.1-1ubuntu1.1_amd64.deb",
 				LibraryName: "libasound.so",
 			},
