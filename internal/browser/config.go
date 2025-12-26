@@ -5,24 +5,32 @@ import (
 	"path/filepath"
 )
 
-// Config berisi konfigurasi untuk Ungoogled Chromium
+// Config berisi konfigurasi untuk Chrome
 type Config struct {
-	// URL untuk download Ungoogled Chromium
+	// URL untuk download Chrome for Testing
 	DownloadURL string
 
 	// Nama direktori instalasi
 	InstallDirName string
 
-	// Versi Chromium
+	// Versi Chrome
 	Version string
+
+	// URL untuk download dependencies (opsional)
+	DependenciesURLs []string
 }
 
-// DefaultConfig mengembalikan konfigurasi default
+// DefaultConfig mengembalikan konfigurasi default untuk Chrome for Testing
 func DefaultConfig() Config {
 	return Config{
-		DownloadURL:    "https://github.com/macchrome/linchrome/releases/download/v142.7444.229-M142.0.7444.229-r1522585-portable-ungoogled-Lin64/ungoogled-chromium_142.0.7444.229_1.vaapi_linux.tar.xz",
-		InstallDirName: "ungoogled-chromium",
-		Version:        "142.0.7444.229",
+		// Chrome for Testing - sudah include banyak dependencies
+		DownloadURL:      "https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.204/linux64/chrome-linux64.zip",
+		InstallDirName:   "chrome-for-testing",
+		Version:          "131.0.6778.204",
+		DependenciesURLs: []string{
+			// Dependencies akan didownload jika diperlukan
+			// Untuk sekarang kosong, akan ditambahkan jika ada error
+		},
 	}
 }
 

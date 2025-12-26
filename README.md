@@ -1,6 +1,14 @@
 # Go Rod Testing Browser Restrict
 
-Aplikasi Go untuk testing browser automation menggunakan Rod dengan dukungan Ungoogled Chromium Portable.
+Aplikasi Go untuk testing browser automation menggunakan Rod dengan dukungan **Chrome for Testing** (portable, tidak perlu sudo/apt).
+
+## Fitur Utama
+
+✅ **Auto Version Check** - Cek versi, skip download jika sudah ada  
+✅ **Zero Sudo** - Tidak perlu root/admin access  
+✅ **Pure Go Extraction** - Tidak perlu tar/xz command  
+✅ **Portable Chrome** - Chrome for Testing dari Google  
+✅ **Smart Caching** - Download sekali, reuse selamanya
 
 ## Struktur Proyek
 
@@ -27,16 +35,23 @@ Aplikasi Go untuk testing browser automation menggunakan Rod dengan dukungan Ung
 - **internal/logger**: Sistem logging yang fleksibel dengan output ke file dan stdout
 - **internal/runtime**: Logging informasi runtime sistem yang lengkap
 
-### 2. Automatic Ungoogled Chromium Setup
+### 2. Chrome for Testing with Smart Version Checking
 
-Aplikasi akan otomatis:
+Aplikasi akan:
 
-- Mengecek apakah Ungoogled Chromium sudah terinstall
-- Download versi portable jika belum ada (~100MB, satu kali saja)
-- Ekstrak ke direktori `~/.local/share/ungoogled-chromium`
-- Menggunakan binary tersebut untuk menjalankan browser
+- **Cek versi yang terinstall** - Bandingkan dengan versi yang dibutuhkan
+- **Skip download jika sama** - Hemat bandwidth dan waktu
+- **Auto download jika berbeda/belum ada** - Download Chrome for Testing (~150MB)
+- **Pure Go extraction** - Extract ZIP tanpa dependency eksternal
+- **Save version info** - Simpan file `.version` untuk tracking
 
-**Penting**: Aplikasi ini **TIDAK** menggunakan Chrome default atau auto-download dari Rod. Hanya menggunakan Ungoogled Chromium yang dikelola oleh aplikasi sendiri. Jika Chromium gagal disetup, aplikasi akan error (tidak ada fallback ke browser lain).
+**Keuntungan Chrome for Testing:**
+
+- ✅ Portable (tidak perlu install ke sistem)
+- ✅ Tidak perlu sudo/apt
+- ✅ Include dependencies minimal
+- ✅ Official dari Google
+- ✅ Stable dan terupdate
 
 ### 3. Comprehensive Runtime Logging
 
@@ -52,9 +67,11 @@ Aplikasi akan otomatis:
 ### Prerequisites
 
 - Go 1.25.4 atau lebih baru
-- Linux OS (untuk Ungoogled Chromium)
-- **TIDAK PERLU** sudo/apt/yum atau package manager
-- **TIDAK PERLU** tar, xz, atau utility eksternal lainnya (menggunakan pure Go)
+- Linux OS (untuk Chrome for Testing)
+- **✅ TIDAK PERLU** sudo/apt/yum atau package manager
+- **✅ TIDAK PERLU** tar, xz, atau utility eksternal (menggunakan pure Go)
+- **✅ TIDAK PERLU** Chrome/Chromium terinstall di sistem
+- Minimal 250MB free space di `~/.local/share/` untuk Chrome
 
 ### Build
 
@@ -73,38 +90,69 @@ make build
 ./go-rod-testing-browser-restrict
 ```
 
-Aplikasi akan:
+### Perilaku Smart Version Check
 
-1. Membuat log file di `runtime-info.log` (atau sesuai `RUNTIME_LOG_PATH`)
-2. Log semua informasi runtime
-3. Setup Ungoogled Chromium (download jika perlu)
-4. Buka browser dan navigasi ke example.com
-5. Print title halaman
+**Run Pertama** (Chrome belum ada):
+
+```
+chrome_target_version: 131.0.6778.204
+chrome_status: not_found_downloading
+chrome_download: starting
+chrome_extract: format_zip
+chrome_extract: success
+chrome_version: 131.0.6778.204
+browser_status: connected
+```
+
+**Run Kedua dan Selanjutnya** (Chrome sudah ada dengan versi sama):
+
+```
+chrome_target_version: 131.0.6778.204
+chrome_installed_version: 131.0.6778.204
+chrome_status: already_installed_correct_version
+browser_status: connected
+(SKIP DOWNLOAD - instant start!)
+```
+
+**Jika Update Versi** (misalnya ganti ke v132):
+
+```
+chrome_target_version: 132.0.0.0
+chrome_installed_version: 131.0.6778.204
+chrome_version_mismatch: installed=131.0.6778.204, required=132.0.0.0
+chrome_status: found_different_version_will_reinstall
+(akan download versi baru)
+```
 
 ## Environment Variables
 
 - `RUNTIME_LOG_PATH`: Path custom untuk file log (opsional)
 
-## Download Manual Ungoogled Chromium
+## Download Manual Chrome for Testing
 
 Jika download otomatis gagal, Anda bisa download manual:
 
 ```bash
-# Download
-wget https://github.com/macchrome/linchrome/releases/download/v142.7444.229-M142.0.7444.229-r1522585-portable-ungoogled-Lin64/ungoogled-chromium_142.0.7444.229_1.vaapi_linux.tar.xz
+# Download Chrome for Testing
+wget https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.204/linux64/chrome-linux64.zip
 
 # Ekstrak ke direktori yang benar
-mkdir -p ~/.local/share/ungoogled-chromium
-tar -xf ungoogled-chromium_*.tar.xz -C ~/.local/share/ungoogled-chromium
+mkdir -p ~/.local/share/chrome-for-testing
+unzip chrome-linux64.zip -d ~/.local/share/chrome-for-testing/
+
+# Buat file version
+echo "131.0.6778.204" > ~/.local/share/chrome-for-testing/.version
 
 # Jalankan aplikasi
 ./go-rod-testing-browser-restrict
 ```
 
-## Keuntungan Ungoogled Chromium
+## Keuntungan Chrome for Testing
 
-1. **Portable**: Tidak memerlukan instalasi sistem
-2. **Kompatibilitas**: Lebih baik di server terbatas
+1. **Portable**: Tidak memerlukan instalasi sistem (no sudo needed)
+2. **Official**: Langsung dari Google, bukan third-party
+3. **Dependencies Minimal**: Sudah include library yang dibutuhkan
+4. **Smart Caching**: Download sekali, reuse selamanya dengan version check
 3. **Privacy**: Tanpa tracking Google
 4. **Headless**: Cocok untuk automation
 5. **No Sandbox**: Bisa jalan di environment terbatas
