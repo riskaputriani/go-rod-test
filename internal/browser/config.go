@@ -164,6 +164,12 @@ func DefaultConfig() Config {
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/a/avahi/libavahi-client3_0.8-5ubuntu5_amd64.deb",
 				LibraryName: "libavahi-client.so",
 			},
+			{
+				Name:        "libpcre3",
+				DebianURL:   "https://ftp.debian.org/debian/pool/main/p/pcre3/libpcre3_8.39-13_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/p/pcre3/libpcre3_2%3a8.39-13ubuntu0.22.04.1_amd64.deb",
+				LibraryName: "libpcre.so",
+			},
 		},
 	}
 }
