@@ -38,10 +38,16 @@ func main() {
 
 	// Gunakan browser
 	page := browserInstance.MustPage("https://example.com")
+
+	// Tunggu sampai page selesai loading
+	page.MustWaitStable()
+
 	title := page.MustInfo().Title
 
 	log.LogKV("page_title", title)
+	log.LogKV("page_url", page.MustInfo().URL)
 	fmt.Printf("\nPage Title: %s\n", title)
+	fmt.Printf("Page URL: %s\n", page.MustInfo().URL)
 
 	log.LogKV("status", "success")
 }
