@@ -38,6 +38,13 @@ func (cm *ChromiumManager) Setup() error {
 	if cm.isInstalledWithCorrectVersion() {
 		cm.logger("chrome_status", "already_installed_correct_version")
 		cm.logger("chrome_version", cm.config.Version)
+
+		// Setup dependencies meskipun Chrome sudah ada
+		if err := cm.setupDependencies(); err != nil {
+			cm.logger("chrome_dependencies_error", err.Error())
+			// Continue - dependencies mungkin sudah ada
+		}
+
 		return nil
 	}
 
@@ -48,7 +55,7 @@ func (cm *ChromiumManager) Setup() error {
 		cm.logger("chrome_status", "not_found_downloading")
 	}
 
-	// Download dan ekstrak
+	// Download dan ekstrak Chrome
 	if err := cm.downloadAndExtract(); err != nil {
 		return fmt.Errorf("failed to setup chrome: %w", err)
 	}
@@ -58,7 +65,34 @@ func (cm *ChromiumManager) Setup() error {
 		cm.logger("chrome_version_save_error", err.Error())
 	}
 
+	// Setup dependencies setelah Chrome terinstall
+	if err := cm.setupDependencies(); err != nil {
+		cm.logger("chrome_dependencies_warning", err.Error())
+		// Continue - Chrome mungkin bisa jalan tanpa semua deps
+	}
+
 	cm.logger("chrome_status", "installation_complete")
+	return nil
+}
+
+// setupDependencies mengecek dan mengunduh dependencies yang diperlukan
+func (cm *ChromiumManager) setupDependencies() error {
+	if len(cm.config.Dependencies) == 0 {
+		cm.logger("chrome_dependencies", "none_configured")
+		return nil
+	}
+
+	cm.logger("chrome_dependencies", "checking")
+
+	// Buat direktori untuk dependencies
+	libDir := filepath.Join(cm.installDir, "libs")
+
+	depManager := NewDependencyManager(libDir, cm.logger)
+	if err := depManager.Setup(cm.config.Dependencies); err != nil {
+		return fmt.Errorf("failed to setup dependencies: %w", err)
+	}
+
+	cm.logger("chrome_dependencies", "complete")
 	return nil
 }
 
@@ -319,17 +353,32 @@ func (cm *ChromiumManager) GetBrowser() (*rod.Browser, error) {
 	cm.logger("browser_executable", cm.execPath)
 	cm.logger("browser_version", cm.config.Version)
 
-	// Set environment variable untuk library dependencies jika ada
-	libPath := filepath.Join(cm.installDir, "lib")
-	if _, err := os.Stat(libPath); err == nil {
-		// Jika ada folder lib, tambahkan ke LD_LIBRARY_PATH
+	// Set LD_LIBRARY_PATH untuk dependencies yang didownload
+	libDirs := []string{
+		filepath.Join(cm.installDir, "libs", "usr", "lib", "x86_64-linux-gnu"),
+		filepath.Join(cm.installDir, "libs", "usr", "lib64"),
+		filepath.Join(cm.installDir, "libs", "usr", "lib"),
+		filepath.Join(cm.installDir, "libs", "lib", "x86_64-linux-gnu"),
+		filepath.Join(cm.installDir, "libs", "lib64"),
+		filepath.Join(cm.installDir, "libs", "lib"),
+		filepath.Join(cm.installDir, "lib"),
+	}
+
+	var existingPaths []string
+	for _, dir := range libDirs {
+		if _, err := os.Stat(dir); err == nil {
+			existingPaths = append(existingPaths, dir)
+		}
+	}
+
+	if len(existingPaths) > 0 {
+		newLDPath := strings.Join(existingPaths, ":")
 		currentLD := os.Getenv("LD_LIBRARY_PATH")
 		if currentLD != "" {
-			os.Setenv("LD_LIBRARY_PATH", libPath+":"+currentLD)
-		} else {
-			os.Setenv("LD_LIBRARY_PATH", libPath)
+			newLDPath = newLDPath + ":" + currentLD
 		}
-		cm.logger("browser_ld_library_path", os.Getenv("LD_LIBRARY_PATH"))
+		os.Setenv("LD_LIBRARY_PATH", newLDPath)
+		cm.logger("browser_ld_library_path", newLDPath)
 	}
 
 	u := launcher.New().
@@ -337,6 +386,7 @@ func (cm *ChromiumManager) GetBrowser() (*rod.Browser, error) {
 		Headless(true).
 		NoSandbox(true).
 		Set("disable-gpu").
+		Set("disable-dev-shm-usage").
 		MustLaunch()
 
 	// Buat browser

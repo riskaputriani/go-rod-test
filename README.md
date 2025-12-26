@@ -35,21 +35,40 @@ Aplikasi Go untuk testing browser automation menggunakan Rod dengan dukungan **C
 - **internal/logger**: Sistem logging yang fleksibel dengan output ke file dan stdout
 - **internal/runtime**: Logging informasi runtime sistem yang lengkap
 
-### 2. Chrome for Testing with Smart Version Checking
+### 2. Chrome for Testing with Smart Version Checking + Auto Dependencies
 
 Aplikasi akan:
 
-- **Cek versi yang terinstall** - Bandingkan dengan versi yang dibutuhkan
+- **Auto-detect OS** - Deteksi Debian vs Ubuntu untuk download yang tepat
+- **Cek dependencies** - Cek library yang sudah ada di sistem/libs
+- **Download .deb packages** - Download dependencies yang belum ada
+- **Extract tanpa sudo** - Ekstrak .deb ke folder lokal (dpkg -x atau pure Go)
+- **Set LD_LIBRARY_PATH** - Arahkan Chrome ke libraries yang di-extract
+- **Cek versi Chrome** - Bandingkan dengan versi yang dibutuhkan
 - **Skip download jika sama** - Hemat bandwidth dan waktu
 - **Auto download jika berbeda/belum ada** - Download Chrome for Testing (~150MB)
-- **Pure Go extraction** - Extract ZIP tanpa dependency eksternal
+- **Pure Go extraction** - Extract ZIP/DEB tanpa dependency eksternal
 - **Save version info** - Simpan file `.version` untuk tracking
 
-**Keuntungan Chrome for Testing:**
+**Dependencies yang di-handle otomatis:**
+
+- ✅ libnss3 (Network Security Services)
+- ✅ libnspr4 (Netscape Portable Runtime)
+- ✅ libatk-bridge2.0-0 (Accessibility Toolkit Bridge)
+- ✅ libatk1.0-0 (ATK Library)
+- ✅ libatspi2.0-0 (Assistive Technology SPI)
+- ✅ libcups2 (CUPS printing)
+- ✅ libdrm2 (Direct Rendering Manager)
+- ✅ libgbm1 (Generic Buffer Management)
+- ✅ libasound2 (ALSA sound)
+
+**Keuntungan Chrome for Testing + Auto Deps:**
 
 - ✅ Portable (tidak perlu install ke sistem)
-- ✅ Tidak perlu sudo/apt
-- ✅ Include dependencies minimal
+- ✅ **Zero Sudo** - Tidak perlu root access untuk dependencies
+- ✅ **Auto Dependencies** - Otomatis download & extract shared libraries
+- ✅ **Pure Go** - Ekstrak .deb dengan pure Go (fallback ke dpkg -x)
+- ✅ **OS Detection** - Auto pilih Debian/Ubuntu packages
 - ✅ Official dari Google
 - ✅ Stable dan terupdate
 
@@ -68,10 +87,12 @@ Aplikasi akan:
 
 - Go 1.25.4 atau lebih baru
 - Linux OS (untuk Chrome for Testing)
-- **✅ TIDAK PERLU** sudo/apt/yum atau package manager
-- **✅ TIDAK PERLU** tar, xz, atau utility eksternal (menggunakan pure Go)
+- **✅ TIDAK PERLU** sudo/apt/yum atau package manager (dependencies di-download otomatis)
+- **✅ TIDAK PERLU** tar, xz, dpkg atau utility eksternal (menggunakan pure Go)
 - **✅ TIDAK PERLU** Chrome/Chromium terinstall di sistem
+- **✅ TIDAK PERLU** install shared libraries (.so files) secara manual
 - Minimal 250MB free space di `~/.local/share/` untuk Chrome
+- Minimal 50MB free space untuk dependencies (9 packages ~5MB each)
 
 ### Build
 
@@ -90,47 +111,69 @@ make build
 ./go-rod-testing-browser-restrict
 ```
 
-### Perilaku Smart Version Check
+### Perilaku Smart Version Check + Auto Dependencies
 
-**Run Pertama** (Chrome belum ada):
+**Run Pertama** (Chrome dan dependencies belum ada):
 
 ```
+os_detected: debian
 chrome_target_version: 131.0.6778.204
 chrome_status: not_found_downloading
 chrome_download: starting
 chrome_extract: format_zip
 chrome_extract: success
+
+dependency_check: starting
+dependency: libnss3 - not_found
+dependency_download: libnss3
+dependency_extract: libnss3 - success
+dependency: libnspr4 - not_found
+dependency_download: libnspr4
+dependency_extract: libnspr4 - success
+... (7 dependencies lainnya)
+dependency_setup: complete
+
 chrome_version: 131.0.6778.204
 browser_status: connected
 ```
 
-**Run Kedua dan Selanjutnya** (Chrome sudah ada dengan versi sama):
+**Run Kedua dan Selanjutnya** (Chrome dan dependencies sudah ada):
 
 ```
 chrome_target_version: 131.0.6778.204
 chrome_installed_version: 131.0.6778.204
 chrome_status: already_installed_correct_version
+
+dependency_check: starting
+dependency: libnss3 - already_exists
+dependency: libnspr4 - already_exists
+... (semua dependencies sudah ada)
+dependency_setup: skipped_all_exists
+
 browser_status: connected
-(SKIP DOWNLOAD - instant start!)
+(INSTANT START - no download!)
 ```
 
-**Jika Update Versi** (misalnya ganti ke v132):
+**Jika Update Versi Chrome** (misalnya ganti ke v132):
 
 ```
 chrome_target_version: 132.0.0.0
 chrome_installed_version: 131.0.6778.204
 chrome_version_mismatch: installed=131.0.6778.204, required=132.0.0.0
 chrome_status: found_different_version_will_reinstall
-(akan download versi baru)
+dependency_check: skip (dependencies sudah ada)
+(akan download Chrome versi baru, reuse dependencies)
 ```
 
 ## Environment Variables
 
 - `RUNTIME_LOG_PATH`: Path custom untuk file log (opsional)
 
-## Download Manual Chrome for Testing
+## Download Manual (Opsional)
 
-Jika download otomatis gagal, Anda bisa download manual:
+### Chrome for Testing
+
+Jika download Chrome otomatis gagal:
 
 ```bash
 # Download Chrome for Testing
@@ -142,20 +185,38 @@ unzip chrome-linux64.zip -d ~/.local/share/chrome-for-testing/
 
 # Buat file version
 echo "131.0.6778.204" > ~/.local/share/chrome-for-testing/.version
+```
+
+### Dependencies Manual
+
+Jika auto-download dependencies gagal, download manual:
+
+```bash
+# Untuk Debian 12
+cd ~/.local/share/chrome-for-testing/libs
+wget http://ftp.debian.org/debian/pool/main/n/nss/libnss3_2%3a3.87.1-1_amd64.deb
+dpkg -x libnss3_2:3.87.1-1_amd64.deb .
+
+# Untuk Ubuntu 22.04
+cd ~/.local/share/chrome-for-testing/libs
+wget http://archive.ubuntu.com/ubuntu/pool/main/n/nss/libnss3_2%3a3.68.2-0ubuntu1.2_amd64.deb
+dpkg -x libnss3_2:3.68.2-0ubuntu1.2_amd64.deb .
 
 # Jalankan aplikasi
 ./go-rod-testing-browser-restrict
 ```
 
-## Keuntungan Chrome for Testing
+## Keuntungan Chrome for Testing + Auto Dependencies
 
-1. **Portable**: Tidak memerlukan instalasi sistem (no sudo needed)
-2. **Official**: Langsung dari Google, bukan third-party
-3. **Dependencies Minimal**: Sudah include library yang dibutuhkan
-4. **Smart Caching**: Download sekali, reuse selamanya dengan version check
-3. **Privacy**: Tanpa tracking Google
-4. **Headless**: Cocok untuk automation
-5. **No Sandbox**: Bisa jalan di environment terbatas
+1. **Zero Sudo**: Tidak memerlukan root access sama sekali
+2. **Portable**: Chrome + libraries dalam folder lokal
+3. **Official**: Chrome dari Google, libraries dari repos resmi
+4. **Smart Caching**: Download sekali Chrome + deps, reuse selamanya
+5. **Auto Dependencies**: Otomatis resolve shared libraries
+6. **OS Detection**: Auto pilih Debian/Ubuntu packages
+7. **Pure Go**: Ekstrak .deb tanpa dpkg (fallback ke dpkg -x jika ada)
+8. **Headless**: Cocok untuk automation
+9. **No Sandbox**: Bisa jalan di environment terbatas
 
 ## Catatan
 
