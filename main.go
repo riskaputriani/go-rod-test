@@ -37,17 +37,29 @@ func main() {
 	defer browserInstance.MustClose()
 
 	// Gunakan browser
-	page := browserInstance.MustPage("https://example.com")
+	page := browserInstance.MustPage("")
 
-	// Tunggu sampai page selesai loading
-	page.MustWaitStable()
+	// Navigate ke Google
+	err = page.Navigate("https://www.google.com")
+	if err != nil {
+		log.LogKV("navigate_error", err.Error())
+		fmt.Printf("Navigate error: %s\n", err.Error())
+	}
+
+	// Tunggu sampai page selesai loading dengan timeout
+	err = page.WaitLoad()
+	if err != nil {
+		log.LogKV("load_error", err.Error())
+		fmt.Printf("Load error: %s\n", err.Error())
+	}
 
 	title := page.MustInfo().Title
+	url := page.MustInfo().URL
 
 	log.LogKV("page_title", title)
-	log.LogKV("page_url", page.MustInfo().URL)
+	log.LogKV("page_url", url)
 	fmt.Printf("\nPage Title: %s\n", title)
-	fmt.Printf("Page URL: %s\n", page.MustInfo().URL)
+	fmt.Printf("Page URL: %s\n", url)
 
 	log.LogKV("status", "success")
 }
