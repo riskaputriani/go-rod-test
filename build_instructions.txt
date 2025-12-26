@@ -1,0 +1,12 @@
+To build the binary for linux, first you need to manually initialize the go module and download the dependencies. Run the following commands in your terminal:
+```
+go mod init go-rod-testing-browser-restrict
+go mod tidy
+```
+
+Then, to build the binary, run the following command:
+```
+make build
+```
+
+This will create a binary named `go-rod-testing-browser-restrict` in the current directory.

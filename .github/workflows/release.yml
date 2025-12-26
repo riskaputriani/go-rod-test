@@ -1,0 +1,41 @@
+name: Release Linux Binary
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    env:
+      APP_NAME: go-rod-testing-browser-restrict
+      GOOS: linux
+      GOARCH: amd64
+      CGO_ENABLED: "0"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          check-latest: true
+
+      - name: Build
+        run: |
+          TAG_NAME="${GITHUB_REF_NAME}"
+          mkdir -p dist
+          BINARY_NAME="${APP_NAME}-${TAG_NAME}-${GOOS}-${GOARCH}"
+          GOOS="${GOOS}" GOARCH="${GOARCH}" CGO_ENABLED="${CGO_ENABLED}" \
+            go build -o "dist/${BINARY_NAME}" main.go
+          echo "BINARY_NAME=${BINARY_NAME}" >> "${GITHUB_ENV}"
+
+      - name: Publish Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/${{ env.BINARY_NAME }}

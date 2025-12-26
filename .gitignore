@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / compiled files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Go
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go toolchain for builds
+*.out
+
+go-rod-testing-browser-restrict
