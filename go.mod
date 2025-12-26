@@ -2,7 +2,10 @@ module go-rod-testing-browser-restrict
 
 go 1.25.4
 
-require github.com/go-rod/rod v0.116.2
+require (
+	github.com/go-rod/rod v0.116.2
+	github.com/ulikunitz/xz v0.5.15
+)
 
 require (
 	github.com/ysmood/fetchup v0.2.3 // indirect

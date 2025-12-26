@@ -53,7 +53,8 @@ Aplikasi akan otomatis:
 
 - Go 1.25.4 atau lebih baru
 - Linux OS (untuk Ungoogled Chromium)
-- `tar` command (untuk ekstraksi)
+- **TIDAK PERLU** sudo/apt/yum atau package manager
+- **TIDAK PERLU** tar, xz, atau utility eksternal lainnya (menggunakan pure Go)
 
 ### Build
 

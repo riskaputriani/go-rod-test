@@ -1,16 +1,16 @@
 package browser
 
 import (
+	"archive/tar"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
-	"os/exec"
 	"path/filepath"
-	"runtime"
 
 	"github.com/go-rod/rod"
 	"github.com/go-rod/rod/lib/launcher"
+	"github.com/ulikunitz/xz"
 )
 
 // ChromiumManager mengelola instalasi dan konfigurasi Ungoogled Chromium
@@ -113,57 +113,73 @@ func (cm *ChromiumManager) downloadAndExtract() error {
 	return nil
 }
 
-// extractTarXz mengekstrak file tar.xz
+// extractTarXz mengekstrak file tar.xz menggunakan pure Go (tanpa dependency eksternal)
 func (cm *ChromiumManager) extractTarXz(r io.Reader) error {
-	// Gunakan direktori instalasi untuk temp file (bukan /tmp yang kecil)
-	// /tmp sering dimount sebagai tmpfs dengan size terbatas
-	tmpFile := filepath.Join(cm.installDir, ".chromium-download.tar.xz")
+	cm.logger("chromium_extract", "using_pure_go_no_external_dependency")
 
-	f, err := os.Create(tmpFile)
+	// Decompress xz
+	xzReader, err := xz.NewReader(r)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to create xz reader: %w", err)
 	}
 
-	cm.logger("chromium_temp_file", tmpFile)
-	cm.logger("chromium_download_progress", "saving")
+	// Extract tar
+	tarReader := tar.NewReader(xzReader)
 
-	// Copy data ke file
-	if _, err := io.Copy(f, r); err != nil {
-		f.Close()
-		os.Remove(tmpFile)
-		return err
+	for {
+		header, err := tarReader.Next()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return fmt.Errorf("failed to read tar: %w", err)
+		}
+
+		target := filepath.Join(cm.installDir, header.Name)
+
+		switch header.Typeflag {
+		case tar.TypeDir:
+			// Create directory
+			if err := os.MkdirAll(target, 0o755); err != nil {
+				return fmt.Errorf("failed to create directory %s: %w", target, err)
+			}
+			cm.logger("chromium_extract_dir", header.Name)
+
+		case tar.TypeReg:
+			// Create file
+			if err := os.MkdirAll(filepath.Dir(target), 0o755); err != nil {
+				return fmt.Errorf("failed to create parent directory for %s: %w", target, err)
+			}
+
+			outFile, err := os.OpenFile(target, os.O_CREATE|os.O_RDWR|os.O_TRUNC, os.FileMode(header.Mode))
+			if err != nil {
+				return fmt.Errorf("failed to create file %s: %w", target, err)
+			}
+
+			if _, err := io.Copy(outFile, tarReader); err != nil {
+				outFile.Close()
+				return fmt.Errorf("failed to write file %s: %w", target, err)
+			}
+
+			outFile.Close()
+
+			// Log progress setiap 100 file
+			if header.Name[len(header.Name)-1] == 'e' {
+				cm.logger("chromium_extract_file", header.Name)
+			}
+
+		case tar.TypeSymlink:
+			// Create symlink
+			if err := os.Symlink(header.Linkname, target); err != nil {
+				// Ignore jika symlink sudah ada
+				if !os.IsExist(err) {
+					return fmt.Errorf("failed to create symlink %s: %w", target, err)
+				}
+			}
+		}
 	}
-	f.Close()
 
-	cm.logger("chromium_download_progress", "saved")
-
-	// Ekstrak menggunakan command line
-	// Untuk Linux, gunakan tar command
-	if runtime.GOOS == "linux" {
-		return cm.extractUsingTarCommand(tmpFile)
-	}
-
-	// Untuk OS lain, return error
-	return fmt.Errorf("unsupported OS: %s", runtime.GOOS)
-}
-
-// extractUsingTarCommand mengekstrak menggunakan tar command
-func (cm *ChromiumManager) extractUsingTarCommand(tarFile string) error {
-	cm.logger("chromium_extract_cmd", fmt.Sprintf("tar -xf %s -C %s", tarFile, cm.installDir))
-
-	// Gunakan exec untuk menjalankan tar
-	cmd := exec.Command("tar", "-xf", tarFile, "-C", cm.installDir)
-	output, err := cmd.CombinedOutput()
-
-	if err != nil {
-		cm.logger("chromium_extract_error", string(output))
-		return fmt.Errorf("failed to extract: %w (output: %s)", err, string(output))
-	}
-
-	// Hapus file temporary setelah ekstrak
-	os.Remove(tarFile)
 	cm.logger("chromium_extract", "success")
-
 	return nil
 }
 

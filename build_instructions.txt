@@ -11,7 +11,10 @@ Proyek ini telah direfactor menjadi struktur modular:
 
 1. Go 1.25.4 atau lebih baru
 2. Linux OS (untuk Ungoogled Chromium)
-3. tar command tersedia di sistem
+3. **TIDAK PERLU** sudo, apt, atau package manager lainnya
+4. **TIDAK PERLU** tar atau xz command (ekstraksi menggunakan pure Go)
+
+**✅ Bisa jalan di environment restricted (container, CI/CD, shared hosting)**
 
 ## Build Steps
 
@@ -71,10 +74,16 @@ tar -xf ungoogled-chromium_*.tar.xz -C ~/.local/share/ungoogled-chromium
 
 Setelah itu jalankan aplikasi lagi.
 
+### Error: "xz: Cannot exec" atau "tar not found"
+
+✅ **SUDAH DIPERBAIKI**: Aplikasi menggunakan pure Go extraction (library github.com/ulikunitz/xz)
+- Tidak memerlukan xz command
+- Tidak memerlukan tar command
+- Tidak memerlukan sudo/apt untuk install dependency
+- Bisa jalan di environment restricted
+
 ### Error: "no space left on device"
 
-Jika mendapat error ini padahal disk space masih banyak:
-- Ini terjadi karena `/tmp` sering dimount sebagai tmpfs (RAM) dengan size terbatas
-- Solusi: Aplikasi sudah diupdate untuk menyimpan file temporary di `~/.local/share/ungoogled-chromium` 
-  bukan di `/tmp`
-- Pastikan home directory (~) punya minimal 200MB free space untuk download dan ekstraksi
+✅ **SUDAH DIPERBAIKI**: Ekstraksi streaming langsung ke disk, tidak ada file temporary besar.
+- Hanya perlu ~100MB space untuk hasil akhir
+- Pastikan `~/.local/share/` punya minimal 200MB free space
