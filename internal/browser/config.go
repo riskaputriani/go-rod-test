@@ -158,6 +158,12 @@ func DefaultConfig() Config {
 				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/a/avahi/libavahi-common3_0.8-5ubuntu5_amd64.deb",
 				LibraryName: "libavahi-common.so",
 			},
+			{
+				Name:        "libavahi-client3",
+				DebianURL:   "https://ftp.debian.org/debian/pool/main/a/avahi/libavahi-client3_0.8-16_amd64.deb",
+				UbuntuURL:   "http://archive.ubuntu.com/ubuntu/pool/main/a/avahi/libavahi-client3_0.8-5ubuntu5_amd64.deb",
+				LibraryName: "libavahi-client.so",
+			},
 		},
 	}
 }
